@@ -1,0 +1,6 @@
+@do_an_epu_HostAddress = http://localhost:5248
+
+GET {{do_an_epu_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,33 @@
+name: ASP.NET Core Docker Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t be-booking-hotel:latest .
+
+      - name: Chạy container mới
+        shell: pwsh
+        run: |
+          $existing = docker ps -aq --filter "name=be-booking-hotel"
+          if ($existing) {
+            docker stop be-booking-hotel
+            docker rm be-booking-hotel
+          }
+
+          docker run -d `
+            --name be-booking-hotel `
+            --restart unless-stopped `
+            --env-file C:\apps\be-booking-hotel\.env `
+            -p 8080:8080 `
+            be-booking-hotel:latest

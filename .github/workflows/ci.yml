@@ -28,6 +28,5 @@ jobs:
           docker run -d `
             --name be-booking-hotel `
             --restart unless-stopped `
-            --env-file C:\apps\be-booking-hotel\.env `
             -p 8080:8080 `
             be-booking-hotel:latest
